@@ -110,7 +110,7 @@ directories = [
     "reinforcement-learning",
 ]
 
-for directory in directories[8:9]:
+for directory in directories[24:25]:
     if directory != ".DS_Store":
         for file in os.listdir(
             "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/papers/"
@@ -144,7 +144,7 @@ for directory in directories[8:9]:
                 numReps += 1
             else:
                 numReps = 0
-                print(directory)
+                print(directory + "-" + str(directories.index(directory)))
                 break
 # except:
 #     print(filepath)

@@ -6,6 +6,7 @@ from langchain_community.embeddings import OllamaEmbeddings
 import ollama
 import os
 import csv
+import time
 
 
 def loadAndRetrieveDocuments(filepath: str) -> Chroma:
@@ -110,7 +111,7 @@ directories = [
     "reinforcement-learning",
 ]
 
-for directory in directories[24:25]:
+for directory in directories[69:72]:
     if directory != ".DS_Store":
         for file in os.listdir(
             "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/papers/"
@@ -145,6 +146,7 @@ for directory in directories[24:25]:
             else:
                 numReps = 0
                 print(directory + "-" + str(directories.index(directory)))
+                time.sleep(180)
                 break
 # except:
 #     print(filepath)

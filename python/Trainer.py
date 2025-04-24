@@ -61,14 +61,14 @@ def tokenize(examples):
 # )
 dataset = dataset.map(tokenize, batched=True)
 # dataset = dataset.map(group_text, batched=True)
-small_train = dataset["train"].shuffle(seed=42).select(range(4))
-small_test = dataset["test"].shuffle(seed=42).select(range(4))
+small_train = dataset["train"].shuffle(seed=42).select(range(30))
+small_test = dataset["test"].shuffle(seed=42).select(range(30))
 
 print(dataset)
 
 originalModel = AutoModelForCausalLM.from_pretrained(modelname)
 
-metric = evaluate.load("mtzig/cross_entropy_loss")
+metric = evaluate.load("bertscore")
 
 tokenizer.pad_token = tokenizer.eos_token
 data_collector = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
@@ -76,6 +76,7 @@ data_collector = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 
 def compute_metrics(eval_pred):
     predictions, references = eval_pred
+    print(metric.compute(predictions=predictions, references=references, lang="en"))
     return metric.compute(predictions=predictions, references=references, lang="en")
 
 
@@ -83,7 +84,6 @@ training_args = TrainingArguments(
     output_dir="/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/trainedModel",
     eval_strategy="epoch",
     save_strategy="epoch",
-    # save_strategy="best",
     overwrite_output_dir=True,
     fp16_full_eval=True,
     logging_strategy="epoch",

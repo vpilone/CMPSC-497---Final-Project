@@ -1,6 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
-model1 = "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/trainedModel/checkpoint-3"
+model1 = "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/trainedModel/QandAModel"
 tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B")
 
 defaultString = "Given the research question in Question, create an Artificial Intelligence Apporach to solve it in Approach. \n\nQuestion: "
@@ -23,15 +23,15 @@ pipelineGenerator = pipeline(
 )
 
 for input in inputs:
-    # try:
-    #     response = pipelineGenerator(input)
-    # except:
-    response = "error"
+    try:
+        response = pipelineGenerator(input)
+    except:
+        response = "error"
 
     with open(
-        "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/modelOutputs.txt",
+        "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/ModelOutputs/QandAModelOutputs.txt",
         "+a",
     ) as outputFiles:
         outputFiles.write("Input " + str(inputs.index(input)) + ":\n")
-        outputFiles.write(response)
+        outputFiles.write(str(response))
         outputFiles.write("\n\n")

@@ -12,12 +12,51 @@ with open(
         for section in row[2:]:
             writeRow[0] = writeRow[0] + section
         toWrite = (
-            "Given a research question similar to the one in Question, create an Artificial Intelligence Apporach to solve it similar to the one in Approach. \n\nQuestion: "
+            # "Given the research question in Question, create an Artificial Intelligence Apporach to solve it in Approach. \n\nQuestion: "
+            "Question: "
             + writeRow[1]
-            + "\n\nApproach: "
+            # "\n\nApproach: "
+            # + writeRow[0]
+        )
+        toWrite = toWrite.replace("\n", " ")
+        toWrite = toWrite.replace("*", "")
+        toWrite = toWrite.replace('"', "")
+        toWriteList = [toWrite]
+        stringLen = len(toWrite.split(" "))
+        block_size = 250
+        if stringLen > block_size:
+            toWriteList = []
+            for i in range(0, stringLen, block_size):
+                toWriteList.append(toWrite[i : i + block_size])
+        if train:
+            # train = False
+            with open(
+                "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/databaseTrain.csv",
+                "+a",
+            ) as csvWrite:
+                writer = csv.writer(csvWrite)
+                for i in range(len(toWriteList)):
+                    writer.writerow([toWriteList[i]])
+        else:
+            # train = True
+            with open(
+                "/Users/vpilone/Documents/Classes SP25/CMPSC 497/Final Project/python/databaseTest.csv",
+                "+a",
+            ) as csvWrite:
+                writer = csv.writer(csvWrite)
+                for i in range(len(toWriteList)):
+                    writer.writerow([toWriteList[i]])
+        ##Duplicated JUST FOR FINAL SET
+        toWrite = (
+            # "Given the research question in Question, create an Artificial Intelligence Apporach to solve it in Approach. \n\nQuestion: "
+            # "Question: "
+            # + writeRow[1]
+            "\n\nApproach: "
             + writeRow[0]
         )
         toWrite = toWrite.replace("\n", " ")
+        toWrite = toWrite.replace("*", "")
+        toWrite = toWrite.replace('"', "")
         toWriteList = [toWrite]
         stringLen = len(toWrite.split(" "))
         block_size = 250
